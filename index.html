@@ -281,7 +281,7 @@
     <span class="heart-emoji">❤️</span>
     <div id="heartActions" class="heart-actions">
       <a id="ctaBtn" class="cta" href="https://www.mercadolivre.com.br/impressora-3d-bambu-lab-a1-mini-combo-a1mc/p/MLB64966578?pdp_filters=item_id%3AMLB4847287867&matt_tool=38524122&ua=AMCthuJReRunCWfYvYLJ0TNkobr9Zu-pPAkvVk4mmWwxrGY#origin=whatsapp&sid=whatsapp&wid=MLB4847287867" target="_blank" rel="noopener">Dar de presente 🎁</a>
-      <button id="authBtn" class="cta-auth" type="button">Autorizar compra</button>
+      <button id="authBtn" class="cta-auth" type="button">Autorizar</button>
     </div>
   </div>
 
@@ -308,6 +308,13 @@
       }
       if (params.has('wn')) whatsappPhone = params.get('wn').replace(/\D/g, '');
       if (params.has('wm')) whatsappMessage = params.get('wm');
+
+      var buttons = params.get('bt');
+      if (buttons === 'gift') {
+        document.getElementById('authBtn').style.display = 'none';
+      } else if (buttons === 'auth') {
+        ctaBtn.style.display = 'none';
+      }
     })();
 
     function placeNaoButton() {

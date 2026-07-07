@@ -22,7 +22,8 @@ module.exports = async function handler(req, res) {
     d: String(body.d || ''),
     pu: String(body.pu || ''),
     wn: String(body.wn || '').replace(/\D/g, ''),
-    wm: String(body.wm || '')
+    wm: String(body.wm || ''),
+    bt: ['both', 'gift', 'auth'].includes(body.bt) ? body.bt : 'both'
   };
 
   if (!/^https?:\/\//i.test(config.pu)) {

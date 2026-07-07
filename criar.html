@@ -58,7 +58,7 @@
     color: #7d7b73;
     margin: 4px 0 0;
   }
-  input, textarea {
+  input, textarea, select {
     width: 100%;
     background: #2c2c2a;
     border: 1px solid rgba(255,255,255,0.14);
@@ -72,7 +72,7 @@
     min-height: 70px;
     resize: vertical;
   }
-  input:focus, textarea:focus {
+  input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: #3CFF3C;
   }
@@ -143,7 +143,7 @@
   <div class="panel">
     <a href="lp.html" class="back-link">← Voltar</a>
     <h1>Crie seu próprio "apelo" 🎁</h1>
-    <p class="sub">Gere uma página divertida pra pedir aquele presente ou autorização de compra pra alguém especial. Preencha o produto, o WhatsApp de destino e os textos abaixo — o joguinho (Sim/Não fugindo, coração crescendo, os botões finais) já vem pronto e é sempre igual. No fim você recebe um link curto pra mandar no WhatsApp.</p>
+    <p class="sub">Gere uma página divertida pra pedir aquele presente ou autorização pra alguém especial. Preencha o produto, o WhatsApp de destino e os textos abaixo — o joguinho (Sim/Não fugindo, coração crescendo, os botões finais) já vem pronto e é sempre igual. No fim você recebe um link curto pra mandar no WhatsApp.</p>
 
     <div class="field">
       <label for="fLabel">Nome (aparece como "Apelo do/da ___")</label>
@@ -199,6 +199,15 @@
       <input id="fNewPrice" type="text" placeholder="74,92" inputmode="decimal">
     </div>
 
+    <div class="field">
+      <label for="fButtons">Quais botões aparecem no final?</label>
+      <select id="fButtons">
+        <option value="both" selected>Os dois (presente e autorização)</option>
+        <option value="gift">Só "Dar de presente"</option>
+        <option value="auth">Só "Autorizar"</option>
+      </select>
+    </div>
+
     <button id="generateBtn" type="button">Gerar link</button>
 
     <div id="resultBox" style="display:none;">
@@ -244,7 +253,8 @@
         d: document.getElementById('fDesc').value,
         pu: document.getElementById('fProductUrl').value,
         wn: document.getElementById('fPhone').value.replace(/\D/g, ''),
-        wm: document.getElementById('fMessage').value
+        wm: document.getElementById('fMessage').value,
+        bt: document.getElementById('fButtons').value
       };
 
       if (!config.t || !config.pu || !config.wn || !config.wm) {

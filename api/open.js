@@ -29,6 +29,7 @@ module.exports = async function handler(req, res) {
     if (config.pu) params.set('pu', config.pu);
     if (config.wn) params.set('wn', config.wn);
     if (config.wm) params.set('wm', config.wm);
+    if (config.bt && config.bt !== 'both') params.set('bt', config.bt);
 
     res.writeHead(302, { Location: '/?' + params.toString() });
     res.end();
