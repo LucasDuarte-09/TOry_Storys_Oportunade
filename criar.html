@@ -125,6 +125,18 @@
     font-size: 13px;
     color: #f1efe8;
   }
+  .send-whatsapp {
+    display: block;
+    margin-top: 14px;
+    background: #3CFF3C;
+    color: #0a2b00;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -155,7 +167,7 @@
     </div>
 
     <div class="field">
-      <label for="fPhone">WhatsApp de destino</label>
+      <label for="fPhone">Seu WhatsApp (vai receber a autorização)</label>
       <input id="fPhone" type="text" placeholder="5511999999999" inputmode="numeric">
       <p class="hint">Só números, com código do país. Ex: 55 11 98510-4526 → 5511985104526</p>
     </div>
@@ -163,6 +175,12 @@
     <div class="field">
       <label for="fMessage">Mensagem enviada no WhatsApp ao autorizar</label>
       <textarea id="fMessage" placeholder="Compra autorizada! 😍❤️"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="fRecipientPhone">WhatsApp de quem vai receber o link (opcional)</label>
+      <input id="fRecipientPhone" type="text" placeholder="5511988888888" inputmode="numeric">
+      <p class="hint">Preencha se quiser mandar o link direto por aqui depois de gerar.</p>
     </div>
 
     <button id="generateBtn" type="button">Gerar link</button>
@@ -175,6 +193,7 @@
       </div>
       <p id="copyFeedback"></p>
       <a id="previewLink" href="#" target="_blank" rel="noopener">Abrir prévia ↗</a>
+      <a id="sendWhatsappBtn" class="send-whatsapp" href="#" target="_blank" rel="noopener" style="display:none;">Enviar no WhatsApp 📲</a>
     </div>
   </div>
 
@@ -185,6 +204,7 @@
     var previewLink = document.getElementById('previewLink');
     var copyBtn = document.getElementById('copyBtn');
     var copyFeedback = document.getElementById('copyFeedback');
+    var sendWhatsappBtn = document.getElementById('sendWhatsappBtn');
 
     generateBtn.addEventListener('click', function () {
       var config = {
@@ -207,6 +227,9 @@
       resultBox.style.display = 'block';
       copyFeedback.textContent = '';
       resultLink.value = 'Gerando link curto...';
+      sendWhatsappBtn.style.display = 'none';
+
+      var recipientPhone = document.getElementById('fRecipientPhone').value.replace(/\D/g, '');
 
       fetch('/api/save', {
         method: 'POST',
@@ -215,7 +238,14 @@
       })
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          resultLink.value = data.id ? (location.origin + '/l/' + data.id) : longUrl;
+          var finalUrl = data.id ? (location.origin + '/l/' + data.id) : longUrl;
+          resultLink.value = finalUrl;
+
+          if (recipientPhone) {
+            var shareMessage = '🎉 Olha que promoção muito legal! Corre que é por tempo limitado! Toca aqui: ' + finalUrl;
+            sendWhatsappBtn.href = 'https://wa.me/' + recipientPhone + '?text=' + encodeURIComponent(shareMessage);
+            sendWhatsappBtn.style.display = 'block';
+          }
         })
         .catch(function () {
           resultLink.value = longUrl;
