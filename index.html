@@ -174,14 +174,19 @@
     position: fixed;
     inset: 0;
     display: none;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 22px;
     overflow: hidden;
     background: #1c1c1a;
     opacity: 0;
     z-index: 10000;
     pointer-events: none;
     transition: opacity 0.6s ease;
+    padding: 24px;
+    box-sizing: border-box;
+    text-align: center;
   }
   .heart-overlay.show {
     display: flex;
@@ -189,14 +194,42 @@
   .heart-overlay.grow {
     opacity: 1;
   }
-  .heart-overlay span {
+  .heart-emoji {
     display: block;
     font-size: 8vmin;
     line-height: 1;
     transition: font-size 1.3s cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .heart-overlay.grow span {
-    font-size: 140vmin;
+  .heart-overlay.grow .heart-emoji {
+    font-size: 55vmin;
+  }
+  .heart-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: stretch;
+    width: 100%;
+    max-width: 280px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .heart-actions.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .cta-auth {
+    display: block;
+    background: #3CFF3C;
+    color: #0a2b00;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
   }
 </style>
 </head>
@@ -229,19 +262,23 @@
       </div>
     </div>
 
-    <a id="ctaBtn" class="cta" href="https://www.mercadolivre.com.br/impressora-3d-bambu-lab-a1-mini-combo-a1mc/p/MLB64966578?pdp_filters=item_id%3AMLB4847287867&matt_tool=38524122&ua=AMCthuJReRunCWfYvYLJ0TNkobr9Zu-pPAkvVk4mmWwxrGY#origin=whatsapp&sid=whatsapp&wid=MLB4847287867" target="_blank" rel="noopener" style="display:none;">Dar de presente 🎁</a>
   </div>
 
   <button id="naoBtn" class="btn-nao" type="button">Não</button>
 
-  <div id="heartOverlay" class="heart-overlay" aria-hidden="true"><span>❤️</span></div>
+  <div id="heartOverlay" class="heart-overlay" aria-hidden="true">
+    <span class="heart-emoji">❤️</span>
+    <div id="heartActions" class="heart-actions">
+      <a id="ctaBtn" class="cta" href="https://www.mercadolivre.com.br/impressora-3d-bambu-lab-a1-mini-combo-a1mc/p/MLB64966578?pdp_filters=item_id%3AMLB4847287867&matt_tool=38524122&ua=AMCthuJReRunCWfYvYLJ0TNkobr9Zu-pPAkvVk4mmWwxrGY#origin=whatsapp&sid=whatsapp&wid=MLB4847287867" target="_blank" rel="noopener">Dar de presente 🎁</a>
+      <button id="authBtn" class="cta-auth" type="button">Autorizar compra</button>
+    </div>
+  </div>
 
   <script>
     var naoBtn = document.getElementById('naoBtn');
     var naoPlaceholder = document.getElementById('naoPlaceholder');
     var simBtn = document.getElementById('simBtn');
     var question = document.getElementById('question');
-    var ctaBtn = document.getElementById('ctaBtn');
 
     function placeNaoButton() {
       var r = naoPlaceholder.getBoundingClientRect();
@@ -318,16 +355,13 @@
     });
 
     var heartOverlay = document.getElementById('heartOverlay');
+    var heartEmoji = heartOverlay.querySelector('.heart-emoji');
+    var heartActions = document.getElementById('heartActions');
+    var authBtn = document.getElementById('authBtn');
 
     simBtn.addEventListener('click', function () {
       question.style.display = 'none';
       naoBtn.style.display = 'none';
-      ctaBtn.style.display = 'block';
-
-      var phone = '5511985104526';
-      var message = 'Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️';
-      var waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
-      window.open(waUrl, '_blank');
 
       heartOverlay.classList.add('show');
       requestAnimationFrame(function () {
@@ -335,6 +369,19 @@
           heartOverlay.classList.add('grow');
         });
       });
+    });
+
+    heartEmoji.addEventListener('transitionend', function (e) {
+      if (e.propertyName === 'font-size') {
+        heartActions.classList.add('show');
+      }
+    });
+
+    authBtn.addEventListener('click', function () {
+      var phone = '5511985104526';
+      var message = 'Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️';
+      var waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
+      window.open(waUrl, '_blank');
     });
   </script>
 </body>
