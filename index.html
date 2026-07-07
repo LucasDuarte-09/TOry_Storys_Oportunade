@@ -33,6 +33,7 @@
     text-align: center;
     box-sizing: border-box;
     position: relative;
+    z-index: 1;
   }
   .label {
     font-size: 12px;
@@ -126,16 +127,39 @@
     position: fixed;
     padding: 0 20px;
     font-weight: 500;
-    color: rgba(255, 130, 130, 0.45);
-    background: rgba(255, 90, 90, 0.08);
-    border: 1px solid rgba(255, 130, 130, 0.18);
+    color: rgba(255, 190, 190, 0.7);
+    background: rgba(255, 140, 140, 0.12);
+    border: 1px solid rgba(255, 190, 190, 0.3);
     z-index: 9999;
     margin: 0;
     transition: left 0.12s ease, top 0.12s ease;
   }
+
+  .sad-rain {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .sad-rain span {
+    position: absolute;
+    top: -60px;
+    line-height: 1;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+  @keyframes fall {
+    from { transform: translateY(0); }
+    to { transform: translateY(calc(100vh + 120px)); }
+  }
 </style>
 </head>
 <body>
+  <div id="sadRain" class="sad-rain" aria-hidden="true"></div>
+
   <div class="card">
     <svg width="140" height="140" viewBox="0 0 140 140" role="img" aria-label="Carinha triste" style="margin:0 auto 1.25rem;display:block;">
       <title>Carinha triste</title>
@@ -199,6 +223,25 @@
 
     placeNaoButton();
     window.addEventListener('resize', placeNaoButton);
+
+    (function spawnSadRain() {
+      var rain = document.getElementById('sadRain');
+      var count = 22;
+      for (var i = 0; i < count; i++) {
+        var span = document.createElement('span');
+        span.textContent = '😢';
+        var duration = 6 + Math.random() * 8;
+        var delay = Math.random() * -14;
+        var size = 14 + Math.random() * 22;
+        var opacity = 0.12 + Math.random() * 0.3;
+        span.style.left = (Math.random() * 100) + 'vw';
+        span.style.fontSize = size + 'px';
+        span.style.opacity = opacity;
+        span.style.animationDuration = duration + 's';
+        span.style.animationDelay = delay + 's';
+        rain.appendChild(span);
+      }
+    })();
 
     naoBtn.addEventListener('touchstart', moveNaoButton, { passive: false });
     naoBtn.addEventListener('pointerdown', moveNaoButton, { passive: false });
