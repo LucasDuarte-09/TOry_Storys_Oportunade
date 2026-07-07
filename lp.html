@@ -123,7 +123,7 @@
   }
 
   .testimonials {
-    max-width: 480px;
+    max-width: 720px;
     margin: 0 auto;
     padding: 0 24px 50px;
   }
@@ -132,15 +132,16 @@
     text-align: center;
     margin: 0 0 18px;
   }
+  .testimonial-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+  }
   .testimonial-card {
     background: #2c2c2a;
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 14px;
     padding: 20px;
-    min-height: 92px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
   .testimonial-card p {
     font-size: 14px;
@@ -151,21 +152,6 @@
   .testimonial-card span {
     font-size: 12px;
     color: #7d7b73;
-  }
-  .testimonial-dots {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 12px;
-  }
-  .testimonial-dots span {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-  }
-  .testimonial-dots span.active {
-    background: #3CFF3C;
   }
   .testimonial-form {
     margin-top: 22px;
@@ -253,11 +239,9 @@
 
   <div class="testimonials">
     <h2>Quem já usou, aprovou 💬</h2>
-    <div class="testimonial-card">
-      <p id="testimonialText">Carregando…</p>
-      <span id="testimonialAuthor"></span>
+    <div class="testimonial-list" id="testimonialList">
+      <div class="testimonial-card"><p>Carregando…</p></div>
     </div>
-    <div class="testimonial-dots" id="testimonialDots"></div>
 
     <div class="testimonial-form">
       <input id="tName" type="text" placeholder="Seu nome">
@@ -283,48 +267,34 @@
         document.getElementById('linkCount').textContent = '0';
       });
 
-    var testimonialText = document.getElementById('testimonialText');
-    var testimonialAuthor = document.getElementById('testimonialAuthor');
-    var testimonialDots = document.getElementById('testimonialDots');
-    var testimonials = [];
-    var currentIndex = 0;
-    var rotateTimer = null;
+    var testimonialList = document.getElementById('testimonialList');
 
-    function renderTestimonial(i) {
-      if (!testimonials.length) return;
-      currentIndex = i % testimonials.length;
-      var item = testimonials[currentIndex];
-      testimonialText.textContent = '"' + item.text + '"';
-      testimonialAuthor.textContent = '— ' + item.name;
+    function renderTestimonials(items) {
+      testimonialList.innerHTML = '';
+      items.forEach(function (item) {
+        var card = document.createElement('div');
+        card.className = 'testimonial-card';
 
-      var dots = testimonialDots.querySelectorAll('span');
-      dots.forEach(function (d, idx) {
-        d.className = idx === currentIndex ? 'active' : '';
+        var p = document.createElement('p');
+        p.textContent = '"' + item.text + '"';
+
+        var span = document.createElement('span');
+        span.textContent = '— ' + item.name;
+
+        card.appendChild(p);
+        card.appendChild(span);
+        testimonialList.appendChild(card);
       });
-    }
-
-    function startRotation() {
-      if (rotateTimer) clearInterval(rotateTimer);
-      rotateTimer = setInterval(function () {
-        renderTestimonial(currentIndex + 1);
-      }, 4500);
     }
 
     function loadTestimonials() {
       fetch('/api/testimonials')
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          testimonials = data.testimonials || [];
-          testimonialDots.innerHTML = '';
-          testimonials.forEach(function () {
-            var dot = document.createElement('span');
-            testimonialDots.appendChild(dot);
-          });
-          renderTestimonial(0);
-          startRotation();
+          renderTestimonials(data.testimonials || []);
         })
         .catch(function () {
-          testimonialText.textContent = 'Não foi possível carregar os depoimentos agora.';
+          testimonialList.innerHTML = '<div class="testimonial-card"><p>Não foi possível carregar os depoimentos agora.</p></div>';
         });
     }
 
