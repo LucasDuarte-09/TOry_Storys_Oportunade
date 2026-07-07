@@ -176,24 +176,30 @@
     var copyFeedback = document.getElementById('copyFeedback');
 
     generateBtn.addEventListener('click', function () {
-      var params = new URLSearchParams();
-      params.set('n', document.getElementById('fLabel').value);
-      params.set('t', document.getElementById('fTitle').value);
-      params.set('d', document.getElementById('fDesc').value);
-      params.set('pu', document.getElementById('fProductUrl').value);
-      params.set('wn', document.getElementById('fPhone').value.replace(/\D/g, ''));
-      params.set('wm', document.getElementById('fMessage').value);
+      var config = {
+        n: document.getElementById('fLabel').value,
+        t: document.getElementById('fTitle').value,
+        d: document.getElementById('fDesc').value,
+        pu: document.getElementById('fProductUrl').value,
+        wn: document.getElementById('fPhone').value.replace(/\D/g, ''),
+        wm: document.getElementById('fMessage').value
+      };
 
+      var params = new URLSearchParams(config);
       var longUrl = location.origin + '/?' + params.toString();
       previewLink.href = longUrl;
       resultBox.style.display = 'block';
       copyFeedback.textContent = '';
-      resultLink.value = 'Encurtando link...';
+      resultLink.value = 'Gerando link curto...';
 
-      fetch('/api/shorten?url=' + encodeURIComponent(longUrl))
+      fetch('/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(config)
+      })
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          resultLink.value = data.short || longUrl;
+          resultLink.value = data.id ? (location.origin + '/l/' + data.id) : longUrl;
         })
         .catch(function () {
           resultLink.value = longUrl;
