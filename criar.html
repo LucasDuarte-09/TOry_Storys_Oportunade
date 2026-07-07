@@ -184,11 +184,20 @@
       params.set('wn', document.getElementById('fPhone').value.replace(/\D/g, ''));
       params.set('wm', document.getElementById('fMessage').value);
 
-      var url = location.origin + '/?' + params.toString();
-      resultLink.value = url;
-      previewLink.href = url;
+      var longUrl = location.origin + '/?' + params.toString();
+      previewLink.href = longUrl;
       resultBox.style.display = 'block';
       copyFeedback.textContent = '';
+      resultLink.value = 'Encurtando link...';
+
+      fetch('/api/shorten?url=' + encodeURIComponent(longUrl))
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          resultLink.value = data.short || longUrl;
+        })
+        .catch(function () {
+          resultLink.value = longUrl;
+        });
     });
 
     copyBtn.addEventListener('click', function () {
