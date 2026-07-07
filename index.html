@@ -288,13 +288,16 @@
 
     simBtn.addEventListener('click', function () {
       question.style.display = 'none';
+      naoBtn.style.display = 'none';
       ctaBtn.style.display = 'block';
       spawnRain('❤️', 34, true);
 
       var phone = '5511985104526';
-      var message = 'Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️';
+      var message = '🎁 Presente aprovado! Minha esposa grandiosa, plena e doce, linda e maravilhosa quer te dar a Bambu Lab A1 mini de presente! 😍❤️';
       var waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
-      window.open(waUrl, '_blank');
+      setTimeout(function () {
+        window.location.href = waUrl;
+      }, 1800);
     });
   </script>
 </body>
