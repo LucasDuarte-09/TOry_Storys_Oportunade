@@ -226,24 +226,45 @@
     placeNaoButton();
     window.addEventListener('resize', placeNaoButton);
 
-    (function spawnSadRain() {
-      var rain = document.getElementById('sadRain');
-      var count = 22;
+    var rain = document.getElementById('sadRain');
+
+    function sadFaceSVG(size) {
+      return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">' +
+        '<circle cx="70" cy="70" r="62" fill="#FFC400"/>' +
+        '<circle cx="70" cy="70" r="62" fill="none" stroke="#854F0B" stroke-width="1.5"/>' +
+        '<circle cx="48" cy="60" r="7" fill="#412402"/>' +
+        '<circle cx="92" cy="60" r="7" fill="#412402"/>' +
+        '<path d="M40 96 Q70 76 100 96" fill="none" stroke="#412402" stroke-width="4" stroke-linecap="round"/>' +
+        '<path d="M38 47 Q48 38 58 46" fill="none" stroke="#412402" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M82 46 Q92 38 102 47" fill="none" stroke="#412402" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M40 68 q-3 6 0 12" fill="none" stroke="#378ADD" stroke-width="3" stroke-linecap="round"/>' +
+        '<path d="M100 68 q3 6 0 12" fill="none" stroke="#378ADD" stroke-width="3" stroke-linecap="round"/>' +
+      '</svg>';
+    }
+
+    function spawnRain(kind, count, fresh) {
+      rain.innerHTML = '';
       for (var i = 0; i < count; i++) {
         var span = document.createElement('span');
-        span.textContent = '😢';
-        var duration = 6 + Math.random() * 8;
-        var delay = Math.random() * -14;
         var size = 14 + Math.random() * 22;
+        if (kind === 'sad') {
+          span.innerHTML = sadFaceSVG(Math.round(size));
+        } else {
+          span.textContent = kind;
+          span.style.fontSize = size + 'px';
+        }
+        var duration = fresh ? (3 + Math.random() * 3) : (6 + Math.random() * 8);
+        var delay = fresh ? Math.random() * 1.5 : Math.random() * -14;
         var opacity = 0.45 + Math.random() * 0.4;
         span.style.left = (Math.random() * 100) + 'vw';
-        span.style.fontSize = size + 'px';
         span.style.opacity = opacity;
         span.style.animationDuration = duration + 's';
         span.style.animationDelay = delay + 's';
         rain.appendChild(span);
       }
-    })();
+    }
+
+    spawnRain('sad', 22, false);
 
     naoBtn.addEventListener('touchstart', moveNaoButton, { passive: false });
     naoBtn.addEventListener('pointerdown', moveNaoButton, { passive: false });
@@ -256,6 +277,7 @@
     simBtn.addEventListener('click', function () {
       question.style.display = 'none';
       ctaBtn.style.display = 'block';
+      spawnRain('❤️', 34, true);
 
       var phone = '5511985104526';
       var message = 'Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️';
