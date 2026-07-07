@@ -123,6 +123,12 @@
     <p class="sub">Configure o produto, o WhatsApp de destino e os textos. O resto (o joguinho do Sim/Não, o coração crescendo, tudo) já vem pronto e é sempre igual.</p>
 
     <div class="field">
+      <label for="fLabel">Nome (aparece como "Apelo do/da ___")</label>
+      <input id="fLabel" type="text" value="Apelo do Lucas">
+      <p class="hint">Escreva a frase completa, ex: "Apelo do Lucas" ou "Apelo da Maria"</p>
+    </div>
+
+    <div class="field">
       <label for="fTitle">Pergunta / título</label>
       <input id="fTitle" type="text" value="Posso comprar a Bambu Lab A1 mini?">
     </div>
@@ -171,6 +177,7 @@
 
     generateBtn.addEventListener('click', function () {
       var params = new URLSearchParams();
+      params.set('n', document.getElementById('fLabel').value);
       params.set('t', document.getElementById('fTitle').value);
       params.set('d', document.getElementById('fDesc').value);
       params.set('pu', document.getElementById('fProductUrl').value);

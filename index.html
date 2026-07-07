@@ -260,7 +260,7 @@
       <path d="M100 68 q3 6 0 12" fill="none" stroke="#378ADD" stroke-width="3" stroke-linecap="round"/>
     </svg>
 
-    <p class="label">Apelo do Lucas</p>
+    <p class="label" id="labelText">Apelo do Lucas</p>
     <p class="title" id="titleText">Posso comprar a Bambu Lab A1 mini?</p>
     <p class="desc" id="descText">Prometo que é só pra prototipar coisas da Connex.ai... e imprimir uns brinquedinhos pro Anthony Gabriel também.</p>
 
@@ -293,12 +293,14 @@
     var ctaBtn = document.getElementById('ctaBtn');
     var titleText = document.getElementById('titleText');
     var descText = document.getElementById('descText');
+    var labelText = document.getElementById('labelText');
 
     var whatsappPhone = '5511985104526';
     var whatsappMessage = 'Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️';
 
     (function applyCustomConfig() {
       var params = new URLSearchParams(location.search);
+      if (params.has('n')) labelText.textContent = params.get('n');
       if (params.has('t')) titleText.textContent = params.get('t');
       if (params.has('d')) descText.textContent = params.get('d');
       if (params.has('pu') && /^https?:\/\//i.test(params.get('pu'))) {
