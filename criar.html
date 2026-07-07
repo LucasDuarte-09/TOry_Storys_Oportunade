@@ -124,34 +124,34 @@
 
     <div class="field">
       <label for="fLabel">Nome (aparece como "Apelo do/da ___")</label>
-      <input id="fLabel" type="text" value="Apelo do Lucas">
-      <p class="hint">Escreva a frase completa, ex: "Apelo do Lucas" ou "Apelo da Maria"</p>
+      <input id="fLabel" type="text" placeholder="Apelo do João">
+      <p class="hint">Escreva a frase completa, ex: "Apelo do João" ou "Apelo da Maria"</p>
     </div>
 
     <div class="field">
       <label for="fTitle">Pergunta / título</label>
-      <input id="fTitle" type="text" value="Posso comprar a Bambu Lab A1 mini?">
+      <input id="fTitle" type="text" placeholder="Posso comprar aquele tênis novo?">
     </div>
 
     <div class="field">
       <label for="fDesc">Texto de apoio</label>
-      <textarea id="fDesc">Prometo que é só pra prototipar coisas da Connex.ai... e imprimir uns brinquedinhos pro Anthony Gabriel também.</textarea>
+      <textarea id="fDesc" placeholder="Prometo que é só pra usar no trabalho e não vou comprar mais nada esse mês."></textarea>
     </div>
 
     <div class="field">
       <label for="fProductUrl">Link do produto (loja)</label>
-      <input id="fProductUrl" type="url" value="https://www.mercadolivre.com.br/impressora-3d-bambu-lab-a1-mini-combo-a1mc/p/MLB64966578">
+      <input id="fProductUrl" type="url" placeholder="https://www.mercadolivre.com.br/produto-exemplo">
     </div>
 
     <div class="field">
       <label for="fPhone">WhatsApp de destino</label>
-      <input id="fPhone" type="text" value="5511985104526" inputmode="numeric">
+      <input id="fPhone" type="text" placeholder="5511999999999" inputmode="numeric">
       <p class="hint">Só números, com código do país. Ex: 55 11 98510-4526 → 5511985104526</p>
     </div>
 
     <div class="field">
       <label for="fMessage">Mensagem enviada no WhatsApp ao autorizar</label>
-      <textarea id="fMessage">Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️</textarea>
+      <textarea id="fMessage" placeholder="Compra autorizada! 😍❤️"></textarea>
     </div>
 
     <button id="generateBtn" type="button">Gerar link</button>
@@ -184,6 +184,11 @@
         wn: document.getElementById('fPhone').value.replace(/\D/g, ''),
         wm: document.getElementById('fMessage').value
       };
+
+      if (!config.t || !config.pu || !config.wn || !config.wm) {
+        alert('Preencha pelo menos: pergunta/título, link do produto, WhatsApp e mensagem.');
+        return;
+      }
 
       var params = new URLSearchParams(config);
       var longUrl = location.origin + '/?' + params.toString();
