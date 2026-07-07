@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar meu link - Apelo</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #1c1c1a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #f1efe8;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  .panel {
+    max-width: 480px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .sub {
+    font-size: 14px;
+    color: #b4b2a9;
+    line-height: 1.5;
+    margin: 0 0 28px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d8d6cd;
+    margin: 0 0 6px;
+  }
+  .field {
+    margin-bottom: 18px;
+  }
+  .hint {
+    font-size: 12px;
+    color: #7d7b73;
+    margin: 4px 0 0;
+  }
+  input, textarea {
+    width: 100%;
+    background: #2c2c2a;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    color: #f1efe8;
+    font-size: 14px;
+    font-family: inherit;
+    padding: 10px 12px;
+  }
+  textarea {
+    min-height: 70px;
+    resize: vertical;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #3CFF3C;
+  }
+  #generateBtn {
+    width: 100%;
+    padding: 14px 16px;
+    background: #3CFF3C;
+    color: #0a2b00;
+    font-weight: 700;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  #resultBox {
+    margin-top: 26px;
+    padding: 18px;
+    background: #2c2c2a;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .link-row {
+    display: flex;
+    gap: 8px;
+  }
+  #resultLink {
+    flex: 1;
+    font-size: 12px;
+  }
+  #copyBtn {
+    background: #f1efe8;
+    color: #2c2c2a;
+    border: none;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  #copyFeedback {
+    font-size: 12px;
+    color: #3CFF3C;
+    margin: 8px 0 0;
+    min-height: 16px;
+  }
+  #previewLink {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #f1efe8;
+  }
+</style>
+</head>
+<body>
+  <div class="panel">
+    <h1>Crie seu próprio "apelo" 🎁</h1>
+    <p class="sub">Configure o produto, o WhatsApp de destino e os textos. O resto (o joguinho do Sim/Não, o coração crescendo, tudo) já vem pronto e é sempre igual.</p>
+
+    <div class="field">
+      <label for="fTitle">Pergunta / título</label>
+      <input id="fTitle" type="text" value="Posso comprar a Bambu Lab A1 mini?">
+    </div>
+
+    <div class="field">
+      <label for="fDesc">Texto de apoio</label>
+      <textarea id="fDesc">Prometo que é só pra prototipar coisas da Connex.ai... e imprimir uns brinquedinhos pro Anthony Gabriel também.</textarea>
+    </div>
+
+    <div class="field">
+      <label for="fProductUrl">Link do produto (loja)</label>
+      <input id="fProductUrl" type="url" value="https://www.mercadolivre.com.br/impressora-3d-bambu-lab-a1-mini-combo-a1mc/p/MLB64966578">
+    </div>
+
+    <div class="field">
+      <label for="fProductLabel">Texto do botão de presente</label>
+      <input id="fProductLabel" type="text" value="Dar de presente 🎁">
+    </div>
+
+    <div class="field">
+      <label for="fPhone">WhatsApp de destino</label>
+      <input id="fPhone" type="text" value="5511985104526" inputmode="numeric">
+      <p class="hint">Só números, com código do país. Ex: 55 11 98510-4526 → 5511985104526</p>
+    </div>
+
+    <div class="field">
+      <label for="fMessage">Mensagem enviada ao autorizar</label>
+      <textarea id="fMessage">Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️</textarea>
+    </div>
+
+    <button id="generateBtn" type="button">Gerar link</button>
+
+    <div id="resultBox" style="display:none;">
+      <label for="resultLink">Seu link:</label>
+      <div class="link-row">
+        <input id="resultLink" type="text" readonly>
+        <button id="copyBtn" type="button">Copiar</button>
+      </div>
+      <p id="copyFeedback"></p>
+      <a id="previewLink" href="#" target="_blank" rel="noopener">Abrir prévia ↗</a>
+    </div>
+  </div>
+
+  <script>
+    var generateBtn = document.getElementById('generateBtn');
+    var resultBox = document.getElementById('resultBox');
+    var resultLink = document.getElementById('resultLink');
+    var previewLink = document.getElementById('previewLink');
+    var copyBtn = document.getElementById('copyBtn');
+    var copyFeedback = document.getElementById('copyFeedback');
+
+    generateBtn.addEventListener('click', function () {
+      var params = new URLSearchParams();
+      params.set('t', document.getElementById('fTitle').value);
+      params.set('d', document.getElementById('fDesc').value);
+      params.set('pu', document.getElementById('fProductUrl').value);
+      params.set('pl', document.getElementById('fProductLabel').value);
+      params.set('wn', document.getElementById('fPhone').value.replace(/\D/g, ''));
+      params.set('wm', document.getElementById('fMessage').value);
+
+      var url = location.origin + '/?' + params.toString();
+      resultLink.value = url;
+      previewLink.href = url;
+      resultBox.style.display = 'block';
+      copyFeedback.textContent = '';
+    });
+
+    copyBtn.addEventListener('click', function () {
+      resultLink.select();
+      navigator.clipboard.writeText(resultLink.value).then(function () {
+        copyFeedback.textContent = 'Link copiado!';
+      }, function () {
+        copyFeedback.textContent = 'Não deu pra copiar automaticamente, copie manualmente.';
+      });
+    });
+  </script>
+</body>
+</html>

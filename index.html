@@ -231,6 +231,16 @@
     font-family: inherit;
     cursor: pointer;
   }
+  .make-your-own {
+    display: block;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #7d7b73;
+    text-decoration: none;
+  }
+  .make-your-own:hover {
+    color: #b4b2a9;
+  }
 </style>
 </head>
 <body>
@@ -251,8 +261,8 @@
     </svg>
 
     <p class="label">Apelo do Lucas</p>
-    <p class="title">Posso comprar a Bambu Lab A1 mini?</p>
-    <p class="desc">Prometo que é só pra prototipar coisas da Connex.ai... e imprimir uns brinquedinhos pro Anthony Gabriel também.</p>
+    <p class="title" id="titleText">Posso comprar a Bambu Lab A1 mini?</p>
+    <p class="desc" id="descText">Prometo que é só pra prototipar coisas da Connex.ai... e imprimir uns brinquedinhos pro Anthony Gabriel também.</p>
 
     <div id="question">
       <p class="ask">Vamos lá, é só clicar em "sim" 🙏</p>
@@ -262,6 +272,7 @@
       </div>
     </div>
 
+    <a class="make-your-own" href="criar.html">Criar meu próprio link →</a>
   </div>
 
   <button id="naoBtn" class="btn-nao" type="button">Não</button>
@@ -279,6 +290,24 @@
     var naoPlaceholder = document.getElementById('naoPlaceholder');
     var simBtn = document.getElementById('simBtn');
     var question = document.getElementById('question');
+    var ctaBtn = document.getElementById('ctaBtn');
+    var titleText = document.getElementById('titleText');
+    var descText = document.getElementById('descText');
+
+    var whatsappPhone = '5511985104526';
+    var whatsappMessage = 'Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️';
+
+    (function applyCustomConfig() {
+      var params = new URLSearchParams(location.search);
+      if (params.has('t')) titleText.textContent = params.get('t');
+      if (params.has('d')) descText.textContent = params.get('d');
+      if (params.has('pu') && /^https?:\/\//i.test(params.get('pu'))) {
+        ctaBtn.href = params.get('pu');
+      }
+      if (params.has('pl')) ctaBtn.textContent = params.get('pl');
+      if (params.has('wn')) whatsappPhone = params.get('wn').replace(/\D/g, '');
+      if (params.has('wm')) whatsappMessage = params.get('wm');
+    })();
 
     function placeNaoButton() {
       var r = naoPlaceholder.getBoundingClientRect();
@@ -378,9 +407,7 @@
     });
 
     authBtn.addEventListener('click', function () {
-      var phone = '5511985104526';
-      var message = 'Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️';
-      var waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
+      var waUrl = 'https://wa.me/' + whatsappPhone + '?text=' + encodeURIComponent(whatsappMessage);
       window.open(waUrl, '_blank');
     });
   </script>
