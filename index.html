@@ -304,7 +304,6 @@
       if (params.has('pu') && /^https?:\/\//i.test(params.get('pu'))) {
         ctaBtn.href = params.get('pu');
       }
-      if (params.has('pl')) ctaBtn.textContent = params.get('pl');
       if (params.has('wn')) whatsappPhone = params.get('wn').replace(/\D/g, '');
       if (params.has('wm')) whatsappMessage = params.get('wm');
     })();

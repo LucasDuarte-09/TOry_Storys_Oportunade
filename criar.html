@@ -138,11 +138,6 @@
     </div>
 
     <div class="field">
-      <label for="fProductLabel">Texto do botão de presente</label>
-      <input id="fProductLabel" type="text" value="Dar de presente 🎁">
-    </div>
-
-    <div class="field">
       <label for="fPhone">WhatsApp de destino</label>
       <input id="fPhone" type="text" value="5511985104526" inputmode="numeric">
       <p class="hint">Só números, com código do país. Ex: 55 11 98510-4526 → 5511985104526</p>
@@ -179,7 +174,6 @@
       params.set('t', document.getElementById('fTitle').value);
       params.set('d', document.getElementById('fDesc').value);
       params.set('pu', document.getElementById('fProductUrl').value);
-      params.set('pl', document.getElementById('fProductLabel').value);
       params.set('wn', document.getElementById('fPhone').value.replace(/\D/g, ''));
       params.set('wm', document.getElementById('fMessage').value);
 
