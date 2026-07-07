@@ -104,7 +104,113 @@
 
   .footer-cta {
     text-align: center;
-    padding: 10px 24px 70px;
+    padding: 10px 24px 40px;
+  }
+
+  .counter {
+    text-align: center;
+    padding: 0 24px 40px;
+  }
+  .counter .num {
+    font-size: 34px;
+    font-weight: 800;
+    color: #3CFF3C;
+  }
+  .counter .label {
+    font-size: 13px;
+    color: #b4b2a9;
+    margin-top: 4px;
+  }
+
+  .testimonials {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 24px 50px;
+  }
+  .testimonials h2 {
+    font-size: 18px;
+    text-align: center;
+    margin: 0 0 18px;
+  }
+  .testimonial-card {
+    background: #2c2c2a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 20px;
+    min-height: 92px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .testimonial-card p {
+    font-size: 14px;
+    color: #f1efe8;
+    line-height: 1.5;
+    margin: 0 0 10px;
+  }
+  .testimonial-card span {
+    font-size: 12px;
+    color: #7d7b73;
+  }
+  .testimonial-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .testimonial-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+  }
+  .testimonial-dots span.active {
+    background: #3CFF3C;
+  }
+  .testimonial-form {
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .testimonial-form input, .testimonial-form textarea {
+    width: 100%;
+    background: #2c2c2a;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    color: #f1efe8;
+    font-size: 13px;
+    font-family: inherit;
+    padding: 9px 11px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  .testimonial-form textarea {
+    min-height: 60px;
+    resize: vertical;
+  }
+  .testimonial-form button {
+    width: 100%;
+    background: #f1efe8;
+    color: #2c2c2a;
+    border: none;
+    border-radius: 8px;
+    padding: 11px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .testimonial-feedback {
+    font-size: 12px;
+    color: #3CFF3C;
+    margin-top: 8px;
+    min-height: 14px;
+  }
+
+  .credit {
+    text-align: center;
+    padding: 0 24px 24px;
+    font-size: 11px;
+    color: #55534d;
   }
 </style>
 </head>
@@ -140,8 +246,122 @@
     </div>
   </div>
 
+  <div class="counter">
+    <div class="num" id="linkCount">—</div>
+    <div class="label">apelos já criados com o Apelo Generator</div>
+  </div>
+
+  <div class="testimonials">
+    <h2>Quem já usou, aprovou 💬</h2>
+    <div class="testimonial-card">
+      <p id="testimonialText">Carregando…</p>
+      <span id="testimonialAuthor"></span>
+    </div>
+    <div class="testimonial-dots" id="testimonialDots"></div>
+
+    <div class="testimonial-form">
+      <input id="tName" type="text" placeholder="Seu nome">
+      <textarea id="tText" placeholder="Conta como foi sua experiência..."></textarea>
+      <button id="tSubmit" type="button">Publicar depoimento</button>
+      <p class="testimonial-feedback" id="tFeedback"></p>
+    </div>
+  </div>
+
   <div class="footer-cta">
     <a class="cta-primary" href="criar.html">Criar meu apelo →</a>
   </div>
+
+  <p class="credit">Criado por Lucas Pessoa Duarte.</p>
+
+  <script>
+    fetch('/api/count')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        document.getElementById('linkCount').textContent = (data.count || 0).toLocaleString('pt-BR');
+      })
+      .catch(function () {
+        document.getElementById('linkCount').textContent = '0';
+      });
+
+    var testimonialText = document.getElementById('testimonialText');
+    var testimonialAuthor = document.getElementById('testimonialAuthor');
+    var testimonialDots = document.getElementById('testimonialDots');
+    var testimonials = [];
+    var currentIndex = 0;
+    var rotateTimer = null;
+
+    function renderTestimonial(i) {
+      if (!testimonials.length) return;
+      currentIndex = i % testimonials.length;
+      var item = testimonials[currentIndex];
+      testimonialText.textContent = '"' + item.text + '"';
+      testimonialAuthor.textContent = '— ' + item.name;
+
+      var dots = testimonialDots.querySelectorAll('span');
+      dots.forEach(function (d, idx) {
+        d.className = idx === currentIndex ? 'active' : '';
+      });
+    }
+
+    function startRotation() {
+      if (rotateTimer) clearInterval(rotateTimer);
+      rotateTimer = setInterval(function () {
+        renderTestimonial(currentIndex + 1);
+      }, 4500);
+    }
+
+    function loadTestimonials() {
+      fetch('/api/testimonials')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          testimonials = data.testimonials || [];
+          testimonialDots.innerHTML = '';
+          testimonials.forEach(function () {
+            var dot = document.createElement('span');
+            testimonialDots.appendChild(dot);
+          });
+          renderTestimonial(0);
+          startRotation();
+        })
+        .catch(function () {
+          testimonialText.textContent = 'Não foi possível carregar os depoimentos agora.';
+        });
+    }
+
+    loadTestimonials();
+
+    document.getElementById('tSubmit').addEventListener('click', function () {
+      var name = document.getElementById('tName').value.trim();
+      var text = document.getElementById('tText').value.trim();
+      var feedback = document.getElementById('tFeedback');
+
+      if (!name || !text) {
+        feedback.textContent = 'Preencha seu nome e o depoimento.';
+        return;
+      }
+
+      feedback.textContent = 'Publicando...';
+
+      fetch('/api/testimonials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name, text: text })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data.ok) {
+            feedback.textContent = 'Obrigado pelo depoimento!';
+            document.getElementById('tName').value = '';
+            document.getElementById('tText').value = '';
+            loadTestimonials();
+          } else {
+            feedback.textContent = 'Não deu pra publicar agora, tenta de novo.';
+          }
+        })
+        .catch(function () {
+          feedback.textContent = 'Não deu pra publicar agora, tenta de novo.';
+        });
+    });
+  </script>
 </body>
 </html>

@@ -154,49 +154,37 @@
     <div class="field">
       <label for="fTitle">Pergunta / título</label>
       <input id="fTitle" type="text" placeholder="Posso comprar aquele tênis novo?">
+      <p class="hint">A pergunta principal que aparece bem grande na página, antes do joguinho do Sim/Não.</p>
     </div>
 
     <div class="field">
       <label for="fDesc">Texto de apoio</label>
       <textarea id="fDesc" placeholder="Prometo que é só pra usar no trabalho e não vou comprar mais nada esse mês."></textarea>
+      <p class="hint">Um texto menor, logo abaixo da pergunta — geralmente uma justificativa ou uma piada.</p>
     </div>
 
     <div class="field">
       <label for="fProductUrl">Link do produto (loja)</label>
       <input id="fProductUrl" type="url" placeholder="https://www.mercadolivre.com.br/produto-exemplo">
+      <p class="hint">Link da loja pro produto desejado. É pra onde o botão "Dar de presente" leva quando clicado.</p>
     </div>
 
     <div class="field">
-      <label for="fPhone">Seu WhatsApp (vai receber a autorização)</label>
+      <label for="fPhone">Seu WhatsApp</label>
       <input id="fPhone" type="text" placeholder="5511999999999" inputmode="numeric">
-      <p class="hint">Só números, com código do país. Ex: 55 11 98510-4526 → 5511985104526</p>
+      <p class="hint">O WhatsApp de quem está criando o pedido (o seu). É pra esse número que vai a mensagem quando a pessoa autorizar. Só números, com código do país. Ex: 55 11 98510-4526 → 5511985104526</p>
     </div>
 
     <div class="field">
-      <label for="fMessage">Mensagem enviada no WhatsApp ao autorizar</label>
+      <label for="fMessage">Mensagem enviada ao autorizar</label>
       <textarea id="fMessage" placeholder="Compra autorizada! 😍❤️"></textarea>
+      <p class="hint">A mensagem que chega no SEU WhatsApp (o número do campo acima) assim que a pessoa clicar em "Autorizar" — avisando que o pedido foi aprovado.</p>
     </div>
 
     <div class="field">
       <label for="fRecipientPhone">WhatsApp de quem vai receber o link (opcional)</label>
       <input id="fRecipientPhone" type="text" placeholder="5511988888888" inputmode="numeric">
-      <p class="hint">Preencha se quiser mandar o link direto por aqui depois de gerar.</p>
-    </div>
-
-    <div class="field">
-      <label for="fProductName">Nome do produto (pra mensagem de divulgação)</label>
-      <input id="fProductName" type="text" placeholder="Tênis Nike Revolution 6">
-      <p class="hint">Aparece na mensagem enviada, no estilo de uma oferta real.</p>
-    </div>
-
-    <div class="field">
-      <label for="fOldPrice">Preço original (opcional)</label>
-      <input id="fOldPrice" type="text" placeholder="90,27" inputmode="decimal">
-    </div>
-
-    <div class="field">
-      <label for="fNewPrice">Preço promocional (opcional)</label>
-      <input id="fNewPrice" type="text" placeholder="74,92" inputmode="decimal">
+      <p class="hint">O WhatsApp da pessoa que vai ver o pedido (namorado(a), esposo(a), etc). Preencha se quiser mandar o link direto por aqui depois de gerar, sem precisar copiar e colar.</p>
     </div>
 
     <div class="field">
@@ -206,6 +194,7 @@
         <option value="gift">Só "Dar de presente"</option>
         <option value="auth">Só "Autorizar"</option>
       </select>
+      <p class="hint">Depois que o coração crescer, escolha se mostra os dois botões ou só um deles.</p>
     </div>
 
     <button id="generateBtn" type="button">Gerar link</button>
@@ -231,19 +220,40 @@
     var copyFeedback = document.getElementById('copyFeedback');
     var sendWhatsappBtn = document.getElementById('sendWhatsappBtn');
 
+    var randomProducts = [
+      'Fone de Ouvido Bluetooth Premium',
+      'Kit Organizador de Cozinha 12 Peças',
+      'Câmera de Segurança Wi-Fi Full HD',
+      'Air Fryer 5L Digital',
+      'Kit 3 Camisetas Básicas',
+      'Mochila Impermeável Notebook 15"',
+      'Smartwatch Esportivo à Prova D\'água',
+      'Conjunto de Panelas Antiaderente 5 Peças',
+      'Luminária de Mesa LED Recarregável',
+      'Kit Ferramentas 32 Peças'
+    ];
+
+    function pick(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
     function buildShareMessage(finalUrl) {
-      var productName = document.getElementById('fProductName').value || document.getElementById('fTitle').value;
-      var oldPrice = document.getElementById('fOldPrice').value.trim();
-      var newPrice = document.getElementById('fNewPrice').value.trim();
+      var productName = pick(randomProducts);
+      var oldPriceNum = 50 + Math.random() * 230;
+      var discount = 0.15 + Math.random() * 0.25;
+      var newPriceNum = oldPriceNum * (1 - discount);
+      var oldPrice = oldPriceNum.toFixed(2).replace('.', ',');
+      var newPrice = newPriceNum.toFixed(2).replace('.', ',');
 
-      var lines = [productName, ''];
-      if (oldPrice) lines.push('De: R$ ' + oldPrice);
-      if (newPrice) lines.push('✅ Por: R$ ' + newPrice);
-      if (oldPrice || newPrice) lines.push('');
-      lines.push('🚀 PEGAR OFERTA:');
-      lines.push(finalUrl);
-
-      return lines.join('\n');
+      return [
+        productName,
+        '',
+        'De: R$ ' + oldPrice,
+        '✅ Por: R$ ' + newPrice,
+        '',
+        '🚀 PEGAR OFERTA:',
+        finalUrl
+      ].join('\n');
     }
 
     generateBtn.addEventListener('click', function () {
