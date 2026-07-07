@@ -169,6 +169,35 @@
     from { transform: translateY(0); }
     to { transform: translateY(calc(100vh + 120px)); }
   }
+
+  .heart-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #1c1c1a;
+    opacity: 0;
+    z-index: 10000;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  .heart-overlay.show {
+    display: flex;
+  }
+  .heart-overlay.grow {
+    opacity: 1;
+  }
+  .heart-overlay span {
+    display: block;
+    font-size: 8vmin;
+    line-height: 1;
+    transition: font-size 1.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .heart-overlay.grow span {
+    font-size: 140vmin;
+  }
 </style>
 </head>
 <body>
@@ -204,6 +233,8 @@
   </div>
 
   <button id="naoBtn" class="btn-nao" type="button">Não</button>
+
+  <div id="heartOverlay" class="heart-overlay" aria-hidden="true"><span>❤️</span></div>
 
   <script>
     var naoBtn = document.getElementById('naoBtn');
@@ -286,16 +317,24 @@
       moveNaoButton();
     });
 
+    var heartOverlay = document.getElementById('heartOverlay');
+
     simBtn.addEventListener('click', function () {
       question.style.display = 'none';
       naoBtn.style.display = 'none';
       ctaBtn.style.display = 'block';
-      spawnRain('❤️', 34, true);
 
       var phone = '5511985104526';
       var message = 'Compra autorizada pela minha grandiosa, plena e doce esposa, linda e maravilhosa! 😍❤️';
       var waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
       window.open(waUrl, '_blank');
+
+      heartOverlay.classList.add('show');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          heartOverlay.classList.add('grow');
+        });
+      });
     });
   </script>
 </body>
