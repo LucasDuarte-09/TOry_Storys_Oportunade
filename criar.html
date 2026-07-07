@@ -183,6 +183,22 @@
       <p class="hint">Preencha se quiser mandar o link direto por aqui depois de gerar.</p>
     </div>
 
+    <div class="field">
+      <label for="fProductName">Nome do produto (pra mensagem de divulgação)</label>
+      <input id="fProductName" type="text" placeholder="Tênis Nike Revolution 6">
+      <p class="hint">Aparece na mensagem enviada, no estilo de uma oferta real.</p>
+    </div>
+
+    <div class="field">
+      <label for="fOldPrice">Preço original (opcional)</label>
+      <input id="fOldPrice" type="text" placeholder="90,27" inputmode="decimal">
+    </div>
+
+    <div class="field">
+      <label for="fNewPrice">Preço promocional (opcional)</label>
+      <input id="fNewPrice" type="text" placeholder="74,92" inputmode="decimal">
+    </div>
+
     <button id="generateBtn" type="button">Gerar link</button>
 
     <div id="resultBox" style="display:none;">
@@ -205,6 +221,21 @@
     var copyBtn = document.getElementById('copyBtn');
     var copyFeedback = document.getElementById('copyFeedback');
     var sendWhatsappBtn = document.getElementById('sendWhatsappBtn');
+
+    function buildShareMessage(finalUrl) {
+      var productName = document.getElementById('fProductName').value || document.getElementById('fTitle').value;
+      var oldPrice = document.getElementById('fOldPrice').value.trim();
+      var newPrice = document.getElementById('fNewPrice').value.trim();
+
+      var lines = [productName, ''];
+      if (oldPrice) lines.push('De: R$ ' + oldPrice);
+      if (newPrice) lines.push('✅ Por: R$ ' + newPrice);
+      if (oldPrice || newPrice) lines.push('');
+      lines.push('🚀 PEGAR OFERTA:');
+      lines.push(finalUrl);
+
+      return lines.join('\n');
+    }
 
     generateBtn.addEventListener('click', function () {
       var config = {
@@ -242,7 +273,7 @@
           resultLink.value = finalUrl;
 
           if (recipientPhone) {
-            var shareMessage = '🎉 Olha que promoção muito legal! Corre que é por tempo limitado! Toca aqui: ' + finalUrl;
+            var shareMessage = buildShareMessage(finalUrl);
             sendWhatsappBtn.href = 'https://wa.me/' + recipientPhone + '?text=' + encodeURIComponent(shareMessage);
             sendWhatsappBtn.style.display = 'block';
           }
