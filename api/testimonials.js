@@ -31,7 +31,7 @@ module.exports = async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    const body = req.body || {};
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
     const name = String(body.name || '').slice(0, 40).trim();
     const text = String(body.text || '').slice(0, 220).trim();
 

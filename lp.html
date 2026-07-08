@@ -15,18 +15,48 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #f1efe8;
   }
+  .header {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 22px 24px 0;
+  }
+  .header .logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: #3CFF3C;
+    font-size: 16px;
+  }
+  .header .name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f1efe8;
+  }
   .hero {
     max-width: 640px;
     margin: 0 auto;
-    padding: 56px 24px 40px;
+    padding: 36px 24px 40px;
     text-align: center;
   }
   .eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.08em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #b4b2a9;
-    margin: 0 0 14px;
+    color: #0a2b00;
+    background: #3CFF3C;
+    font-weight: 700;
+    padding: 7px 12px;
+    border-radius: 999px;
+    margin: 0 0 20px;
   }
   h1 {
     font-size: 30px;
@@ -82,14 +112,20 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #3CFF3C;
-    color: #0a2b00;
-    font-weight: 800;
-    font-size: 13px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(60,255,60,0.12);
+    font-size: 17px;
     margin-bottom: 12px;
+  }
+  .step .step-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #7d7b73;
+    margin-bottom: 4px;
   }
   .step h3 {
     font-size: 15px;
@@ -198,11 +234,22 @@
     font-size: 11px;
     color: #55534d;
   }
+  .privacy-note {
+    font-size: 11px;
+    color: #6f6d66;
+    line-height: 1.5;
+    margin: 10px 0 0;
+  }
 </style>
 </head>
 <body>
+  <div class="header">
+    <span class="logo">🤝</span>
+    <span class="name">Apelo Generator</span>
+  </div>
+
   <div class="hero">
-    <p class="eyebrow">Apelo Generator</p>
+    <p class="eyebrow">✨ Pronto em 2 minutos</p>
     <h1>Peça aquele presente ou <span>autorização</span> de um jeito que ninguém consegue dizer não</h1>
     <p class="lead">Crie, em menos de 2 minutos, uma página só sua com um joguinho: a pessoa tenta clicar em "Não" e ele foge da tela, até restar só o "Sim". Depois é só mandar o link pelo WhatsApp.</p>
     <a class="cta-primary" href="criar.html">Criar meu apelo →</a>
@@ -211,28 +258,33 @@
 
   <div class="steps">
     <div class="step">
-      <span class="num">1</span>
+      <span class="num">🎛️</span>
+      <div class="step-label">Passo 1</div>
       <h3>Configure</h3>
       <p>Escolha o produto, o texto do pedido e o número de WhatsApp que vai receber a resposta.</p>
     </div>
     <div class="step">
-      <span class="num">2</span>
+      <span class="num">🔗</span>
+      <div class="step-label">Passo 2</div>
       <h3>Gere o link</h3>
       <p>Em segundos você recebe um link curto e pronto, sem precisar programar nada.</p>
     </div>
     <div class="step">
-      <span class="num">3</span>
+      <span class="num">📤</span>
+      <div class="step-label">Passo 3</div>
       <h3>Mande no WhatsApp</h3>
       <p>Cole o link na conversa. O card de prévia já vem chamativo, pronto pra despertar curiosidade.</p>
     </div>
     <div class="step">
-      <span class="num">4</span>
+      <span class="num">❤️</span>
+      <div class="step-label">Passo 4</div>
       <h3>Ela(e) autoriza</h3>
       <p>A pessoa joga o "Sim ou Não", vê o coração crescer e clica em autorizar — a mensagem chega direto no seu WhatsApp.</p>
     </div>
   </div>
 
   <div class="counter">
+    <div style="font-size:26px;">🎉</div>
     <div class="num" id="linkCount">—</div>
     <div class="label">apelos já criados com o Apelo Generator</div>
   </div>
@@ -244,10 +296,11 @@
     </div>
 
     <div class="testimonial-form">
-      <input id="tName" type="text" placeholder="Seu nome">
-      <textarea id="tText" placeholder="Conta como foi sua experiência..."></textarea>
+      <input id="tName" type="text" placeholder="Seu nome" maxlength="40">
+      <textarea id="tText" placeholder="Conta como foi sua experiência..." maxlength="220"></textarea>
       <button id="tSubmit" type="button">Publicar depoimento</button>
       <p class="testimonial-feedback" id="tFeedback"></p>
+      <p class="privacy-note">Seu nome e depoimento ficam públicos nesta página. Não inclua dados sensíveis.</p>
     </div>
   </div>
 
@@ -275,12 +328,17 @@
         var card = document.createElement('div');
         card.className = 'testimonial-card';
 
+        var quote = document.createElement('div');
+        quote.style.cssText = 'font-size:18px;color:#3CFF3C;margin-bottom:8px;';
+        quote.textContent = '❝';
+
         var p = document.createElement('p');
-        p.textContent = '"' + item.text + '"';
+        p.textContent = item.text;
 
         var span = document.createElement('span');
         span.textContent = '— ' + item.name;
 
+        card.appendChild(quote);
         card.appendChild(p);
         card.appendChild(span);
         testimonialList.appendChild(card);

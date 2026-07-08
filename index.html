@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex">
 <title>Apelo do Lucas</title>
 <meta name="description" content="Corre que é por tempo limitado! Toca aqui 👇">
 <meta property="og:type" content="website">
@@ -281,7 +282,7 @@
     <span class="heart-emoji">❤️</span>
     <div id="heartActions" class="heart-actions">
       <a id="ctaBtn" class="cta" href="https://www.mercadolivre.com.br/impressora-3d-bambu-lab-a1-mini-combo-a1mc/p/MLB64966578?pdp_filters=item_id%3AMLB4847287867&matt_tool=38524122&ua=AMCthuJReRunCWfYvYLJ0TNkobr9Zu-pPAkvVk4mmWwxrGY#origin=whatsapp&sid=whatsapp&wid=MLB4847287867" target="_blank" rel="noopener">Dar de presente 🎁</a>
-      <button id="authBtn" class="cta-auth" type="button">Autorizar</button>
+      <button id="authBtn" class="cta-auth" type="button">Autorizar ❤️</button>
     </div>
   </div>
 
@@ -416,7 +417,7 @@
 
     authBtn.addEventListener('click', function () {
       var waUrl = 'https://wa.me/' + whatsappPhone + '?text=' + encodeURIComponent(whatsappMessage);
-      window.open(waUrl, '_blank');
+      window.open(waUrl, '_blank', 'noopener');
     });
   </script>
 </body>

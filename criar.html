@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Criar meu link - Apelo</title>
+<meta name="robots" content="noindex">
 <style>
   * {
     box-sizing: border-box;
@@ -19,29 +20,73 @@
     justify-content: center;
   }
   .panel {
-    max-width: 480px;
+    max-width: 520px;
     width: 100%;
   }
   .back-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 13px;
     color: #b4b2a9;
     text-decoration: none;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
   .back-link:hover {
     color: #f1efe8;
   }
   h1 {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
     margin: 0 0 8px;
   }
   .sub {
     font-size: 14px;
     color: #b4b2a9;
-    line-height: 1.5;
-    margin: 0 0 28px;
+    line-height: 1.55;
+    margin: 0 0 26px;
+  }
+  .card {
+    background: #232320;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .card-head .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: rgba(60,255,60,0.12);
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .card-head .title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #f1efe8;
+  }
+  .card-head .subtitle {
+    font-size: 12px;
+    color: #9c9a92;
+    margin-top: 1px;
+  }
+  .card-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
   }
   label {
     display: block;
@@ -51,12 +96,13 @@
     margin: 0 0 6px;
   }
   .field {
-    margin-bottom: 18px;
+    margin-bottom: 0;
   }
   .hint {
     font-size: 12px;
     color: #7d7b73;
     margin: 4px 0 0;
+    line-height: 1.4;
   }
   input, textarea, select {
     width: 100%;
@@ -76,6 +122,21 @@
     outline: none;
     border-color: #3CFF3C;
   }
+  .form-error {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 60, 60, 0.12);
+    border: 1px solid rgba(255, 90, 90, 0.35);
+    color: #ffb3b3;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+  .form-error.show {
+    display: flex;
+  }
   #generateBtn {
     width: 100%;
     padding: 14px 16px;
@@ -86,14 +147,31 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 8px;
+    margin-top: 4px;
   }
   #resultBox {
-    margin-top: 26px;
+    margin-top: 22px;
+    background: #232320;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+  }
+  .result-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    background: rgba(60,255,60,0.1);
+    border-bottom: 1px solid rgba(60,255,60,0.25);
+    color: #b7ffb7;
+    font-weight: 700;
+    font-size: 13.5px;
+  }
+  .result-body {
     padding: 18px;
-    background: #2c2c2a;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   .link-row {
     display: flex;
@@ -116,18 +194,17 @@
   #copyFeedback {
     font-size: 12px;
     color: #3CFF3C;
-    margin: 8px 0 0;
+    margin: 0;
     min-height: 16px;
   }
   #previewLink {
     display: inline-block;
-    margin-top: 14px;
     font-size: 13px;
     color: #f1efe8;
   }
   .send-whatsapp {
     display: block;
-    margin-top: 14px;
+    margin-top: 4px;
     background: #3CFF3C;
     color: #0a2b00;
     text-decoration: none;
@@ -137,78 +214,112 @@
     border-radius: 8px;
     text-align: center;
   }
+  .privacy-note {
+    font-size: 11px;
+    color: #6f6d66;
+    line-height: 1.5;
+    margin-top: 24px;
+  }
 </style>
 </head>
 <body>
   <div class="panel">
     <a href="lp.html" class="back-link">← Voltar</a>
     <h1>Crie seu próprio "apelo" 🎁</h1>
-    <p class="sub">Gere uma página divertida pra pedir aquele presente ou autorização pra alguém especial. Preencha o produto, o WhatsApp de destino e os textos abaixo — o joguinho (Sim/Não fugindo, coração crescendo, os botões finais) já vem pronto e é sempre igual. No fim você recebe um link curto pra mandar no WhatsApp.</p>
+    <p class="sub">Preencha os campos abaixo — o joguinho (Sim/Não fugindo, coração crescendo, os botões finais) já vem pronto. No fim você recebe um link curto pra mandar no WhatsApp.</p>
 
-    <div class="field">
-      <label for="fLabel">Nome (aparece como "Apelo do/da ___")</label>
-      <input id="fLabel" type="text" placeholder="Apelo do João">
-      <p class="hint">Escreva a frase completa, ex: "Apelo do João" ou "Apelo da Maria"</p>
+    <div class="card">
+      <div class="card-head">
+        <span class="icon">✍️</span>
+        <div>
+          <div class="title">Sobre o apelo</div>
+          <div class="subtitle">O que aparece na página do pedido</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label for="fLabel">Nome do apelo</label>
+          <input id="fLabel" type="text" placeholder="Apelo do João" maxlength="60">
+          <p class="hint">Aparece como o título da página. Ex: "Apelo do João" ou "Apelo da Maria".</p>
+        </div>
+
+        <div class="field">
+          <label for="fTitle">Pergunta / título</label>
+          <input id="fTitle" type="text" placeholder="Posso comprar aquele tênis novo?" maxlength="120">
+          <p class="hint">A pergunta principal, bem grande na página, antes do joguinho.</p>
+        </div>
+
+        <div class="field">
+          <label for="fDesc">Texto de apoio</label>
+          <textarea id="fDesc" placeholder="Prometo que é só pra usar no trabalho e não vou comprar mais nada esse mês." maxlength="300"></textarea>
+          <p class="hint">Um texto menor logo abaixo da pergunta — geralmente uma justificativa ou uma piada.</p>
+        </div>
+
+        <div class="field">
+          <label for="fProductUrl">Link do produto (loja)</label>
+          <input id="fProductUrl" type="url" placeholder="https://www.mercadolivre.com.br/produto-exemplo" maxlength="600">
+          <p class="hint">Pra onde o botão "Dar de presente" leva quando clicado.</p>
+        </div>
+      </div>
     </div>
 
-    <div class="field">
-      <label for="fTitle">Pergunta / título</label>
-      <input id="fTitle" type="text" placeholder="Posso comprar aquele tênis novo?">
-      <p class="hint">A pergunta principal que aparece bem grande na página, antes do joguinho do Sim/Não.</p>
+    <div class="card">
+      <div class="card-head">
+        <span class="icon">💌</span>
+        <div>
+          <div class="title">Entrega e resposta</div>
+          <div class="subtitle">Pra onde chega a confirmação</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label for="fPhone">Seu WhatsApp</label>
+          <input id="fPhone" type="text" placeholder="5511999999999" inputmode="numeric" maxlength="20">
+          <p class="hint">É pra esse número que chega a mensagem quando autorizarem. Só números, com país. Ex: 5511985104526.</p>
+        </div>
+
+        <div class="field">
+          <label for="fMessage">Mensagem enviada ao autorizar</label>
+          <textarea id="fMessage" placeholder="Compra autorizada! 😍❤️" maxlength="300"></textarea>
+          <p class="hint">Chega no SEU WhatsApp assim que a pessoa clicar em "Autorizar".</p>
+        </div>
+
+        <div class="field">
+          <label for="fButtons">Botões que aparecem no final</label>
+          <select id="fButtons">
+            <option value="both" selected>Os dois (presente e autorização)</option>
+            <option value="gift">Só "Dar de presente"</option>
+            <option value="auth">Só "Autorizar"</option>
+          </select>
+          <p class="hint">Depois do coração crescer, escolha mostrar os dois botões ou só um.</p>
+        </div>
+
+        <div class="field">
+          <label for="fRecipientPhone">WhatsApp de quem recebe o link</label>
+          <input id="fRecipientPhone" type="text" placeholder="5511988888888" inputmode="numeric" maxlength="20">
+          <p class="hint">Pra mandar o link direto por aqui, sem copiar e colar. Só números, com país.</p>
+        </div>
+      </div>
     </div>
 
-    <div class="field">
-      <label for="fDesc">Texto de apoio</label>
-      <textarea id="fDesc" placeholder="Prometo que é só pra usar no trabalho e não vou comprar mais nada esse mês."></textarea>
-      <p class="hint">Um texto menor, logo abaixo da pergunta — geralmente uma justificativa ou uma piada.</p>
-    </div>
+    <div class="form-error" id="formError">⚠️ <span id="formErrorText"></span></div>
 
-    <div class="field">
-      <label for="fProductUrl">Link do produto (loja)</label>
-      <input id="fProductUrl" type="url" placeholder="https://www.mercadolivre.com.br/produto-exemplo">
-      <p class="hint">Link da loja pro produto desejado. É pra onde o botão "Dar de presente" leva quando clicado.</p>
-    </div>
-
-    <div class="field">
-      <label for="fPhone">Seu WhatsApp</label>
-      <input id="fPhone" type="text" placeholder="5511999999999" inputmode="numeric">
-      <p class="hint">O WhatsApp de quem está criando o pedido (o seu). É pra esse número que vai a mensagem quando a pessoa autorizar. Só números, com código do país. Ex: 55 11 98510-4526 → 5511985104526</p>
-    </div>
-
-    <div class="field">
-      <label for="fMessage">Mensagem enviada ao autorizar</label>
-      <textarea id="fMessage" placeholder="Compra autorizada! 😍❤️"></textarea>
-      <p class="hint">A mensagem que chega no SEU WhatsApp (o número do campo acima) assim que a pessoa clicar em "Autorizar" — avisando que o pedido foi aprovado.</p>
-    </div>
-
-    <div class="field">
-      <label for="fRecipientPhone">WhatsApp de quem vai receber o link (opcional)</label>
-      <input id="fRecipientPhone" type="text" placeholder="5511988888888" inputmode="numeric">
-      <p class="hint">O WhatsApp da pessoa que vai ver o pedido (namorado(a), esposo(a), etc). Preencha se quiser mandar o link direto por aqui depois de gerar, sem precisar copiar e colar.</p>
-    </div>
-
-    <div class="field">
-      <label for="fButtons">Quais botões aparecem no final?</label>
-      <select id="fButtons">
-        <option value="both" selected>Os dois (presente e autorização)</option>
-        <option value="gift">Só "Dar de presente"</option>
-        <option value="auth">Só "Autorizar"</option>
-      </select>
-      <p class="hint">Depois que o coração crescer, escolha se mostra os dois botões ou só um deles.</p>
-    </div>
-
-    <button id="generateBtn" type="button">Gerar link</button>
+    <button id="generateBtn" type="button">Gerar link ✨</button>
 
     <div id="resultBox" style="display:none;">
-      <label for="resultLink">Seu link:</label>
-      <div class="link-row">
-        <input id="resultLink" type="text" readonly>
-        <button id="copyBtn" type="button">Copiar</button>
+      <div class="result-head">✅ Seu link está pronto</div>
+      <div class="result-body">
+        <div class="link-row">
+          <input id="resultLink" type="text" readonly>
+          <button id="copyBtn" type="button">Copiar</button>
+        </div>
+        <p id="copyFeedback"></p>
+        <a id="previewLink" href="#" target="_blank" rel="noopener">Abrir prévia ↗</a>
+        <a id="sendWhatsappBtn" class="send-whatsapp" href="#" target="_blank" rel="noopener" style="display:none;">Enviar no WhatsApp 📲</a>
       </div>
-      <p id="copyFeedback"></p>
-      <a id="previewLink" href="#" target="_blank" rel="noopener">Abrir prévia ↗</a>
-      <a id="sendWhatsappBtn" class="send-whatsapp" href="#" target="_blank" rel="noopener" style="display:none;">Enviar no WhatsApp 📲</a>
     </div>
+
+    <p class="privacy-note">Os dados preenchidos aqui (números de WhatsApp e textos) ficam salvos apenas para gerar e abrir o seu link — não são usados para outra finalidade nem compartilhados com terceiros.</p>
   </div>
 
   <script>
@@ -219,6 +330,8 @@
     var copyBtn = document.getElementById('copyBtn');
     var copyFeedback = document.getElementById('copyFeedback');
     var sendWhatsappBtn = document.getElementById('sendWhatsappBtn');
+    var formError = document.getElementById('formError');
+    var formErrorText = document.getElementById('formErrorText');
 
     var randomProducts = [
       'Fone de Ouvido Bluetooth Premium',
@@ -256,19 +369,31 @@
       ].join('\n');
     }
 
+    function showError(msg) {
+      formErrorText.textContent = msg;
+      formError.classList.add('show');
+    }
+
     generateBtn.addEventListener('click', function () {
+      formError.classList.remove('show');
+
       var config = {
-        n: document.getElementById('fLabel').value,
-        t: document.getElementById('fTitle').value,
-        d: document.getElementById('fDesc').value,
-        pu: document.getElementById('fProductUrl').value,
+        n: document.getElementById('fLabel').value.trim(),
+        t: document.getElementById('fTitle').value.trim(),
+        d: document.getElementById('fDesc').value.trim(),
+        pu: document.getElementById('fProductUrl').value.trim(),
         wn: document.getElementById('fPhone').value.replace(/\D/g, ''),
-        wm: document.getElementById('fMessage').value,
+        wm: document.getElementById('fMessage').value.trim(),
         bt: document.getElementById('fButtons').value
       };
+      var recipientPhone = document.getElementById('fRecipientPhone').value.replace(/\D/g, '');
 
-      if (!config.t || !config.pu || !config.wn || !config.wm) {
-        alert('Preencha pelo menos: pergunta/título, link do produto, WhatsApp e mensagem.');
+      if (!config.n || !config.t || !config.d || !config.pu || !config.wn || !config.wm || !recipientPhone) {
+        showError('Preencha todos os campos antes de gerar o link.');
+        return;
+      }
+      if (!/^https?:\/\//i.test(config.pu)) {
+        showError('O link do produto precisa começar com http:// ou https://');
         return;
       }
 
@@ -279,8 +404,7 @@
       copyFeedback.textContent = '';
       resultLink.value = 'Gerando link curto...';
       sendWhatsappBtn.style.display = 'none';
-
-      var recipientPhone = document.getElementById('fRecipientPhone').value.replace(/\D/g, '');
+      generateBtn.disabled = true;
 
       fetch('/api/save', {
         method: 'POST',
@@ -292,14 +416,15 @@
           var finalUrl = data.id ? (location.origin + '/l/' + data.id) : longUrl;
           resultLink.value = finalUrl;
 
-          if (recipientPhone) {
-            var shareMessage = buildShareMessage(finalUrl);
-            sendWhatsappBtn.href = 'https://wa.me/' + recipientPhone + '?text=' + encodeURIComponent(shareMessage);
-            sendWhatsappBtn.style.display = 'block';
-          }
+          var shareMessage = buildShareMessage(finalUrl);
+          sendWhatsappBtn.href = 'https://wa.me/' + recipientPhone + '?text=' + encodeURIComponent(shareMessage);
+          sendWhatsappBtn.style.display = 'block';
         })
         .catch(function () {
           resultLink.value = longUrl;
+        })
+        .finally(function () {
+          generateBtn.disabled = false;
         });
     });
 
