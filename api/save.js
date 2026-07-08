@@ -22,7 +22,7 @@ module.exports = async function handler(req, res) {
     t: String(body.t || '').slice(0, 120).trim(),
     d: String(body.d || '').slice(0, 300).trim(),
     pu: String(body.pu || '').slice(0, 600).trim(),
-    wn: String(body.wn || '').replace(/\D/g, '').slice(0, 20),
+    wn: String(body.wn || '').replace(/\D/g, '').slice(0, 13),
     wm: String(body.wm || '').slice(0, 300).trim(),
     bt: ['both', 'gift', 'auth'].includes(body.bt) ? body.bt : 'both'
   };
@@ -37,7 +37,7 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  if (!/^\d{10,15}$/.test(config.wn)) {
+  if (!/^55\d{10,11}$/.test(config.wn)) {
     res.status(400).json({ error: 'invalid phone number' });
     return;
   }
