@@ -374,6 +374,10 @@
       formError.classList.add('show');
     }
 
+    function isValidPhone(digits) {
+      return /^\d{10,15}$/.test(digits);
+    }
+
     generateBtn.addEventListener('click', function () {
       formError.classList.remove('show');
 
@@ -394,6 +398,14 @@
       }
       if (!/^https?:\/\//i.test(config.pu)) {
         showError('O link do produto precisa começar com http:// ou https://');
+        return;
+      }
+      if (!isValidPhone(config.wn)) {
+        showError('"Seu WhatsApp" inválido — use só números, com código do país. Ex: 5511999999999');
+        return;
+      }
+      if (!isValidPhone(recipientPhone)) {
+        showError('"WhatsApp de quem recebe o link" inválido — use só números, com código do país. Ex: 5511988888888');
         return;
       }
 

@@ -37,6 +37,11 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  if (!/^\d{10,15}$/.test(config.wn)) {
+    res.status(400).json({ error: 'invalid phone number' });
+    return;
+  }
+
   try {
     const id = randomId();
     await put('links/' + id + '.json', JSON.stringify(config), {
