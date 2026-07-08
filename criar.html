@@ -274,8 +274,8 @@
       <div class="card-body">
         <div class="field">
           <label for="fPhone">Seu WhatsApp</label>
-          <input id="fPhone" type="text" placeholder="5511999999999" inputmode="numeric" maxlength="13">
-          <p class="hint">É pra esse número que chega a mensagem quando autorizarem. Sempre com 55 (Brasil) + DDD + número. Ex: 5511985104526.</p>
+          <input id="fPhone" type="text" placeholder="11999999999" inputmode="numeric" maxlength="13">
+          <p class="hint">É pra esse número que chega a mensagem quando autorizarem. Digite DDD + número (o 55 do Brasil é adicionado automaticamente). Ex: 11985104526.</p>
         </div>
 
         <div class="field">
@@ -296,8 +296,8 @@
 
         <div class="field">
           <label for="fRecipientPhone">WhatsApp de quem recebe o link</label>
-          <input id="fRecipientPhone" type="text" placeholder="5511988888888" inputmode="numeric" maxlength="13">
-          <p class="hint">Pra mandar o link direto por aqui, sem copiar e colar. Sempre com 55 (Brasil) + DDD + número.</p>
+          <input id="fRecipientPhone" type="text" placeholder="11988888888" inputmode="numeric" maxlength="13">
+          <p class="hint">Pra mandar o link direto por aqui, sem copiar e colar. Digite DDD + número (o 55 do Brasil é adicionado automaticamente).</p>
         </div>
       </div>
     </div>
@@ -374,6 +374,14 @@
       formError.classList.add('show');
     }
 
+    function normalizePhone(value) {
+      var digits = value.replace(/\D/g, '');
+      if (digits.length === 10 || digits.length === 11) {
+        digits = '55' + digits;
+      }
+      return digits;
+    }
+
     function isValidPhone(digits) {
       return /^55\d{10,11}$/.test(digits);
     }
@@ -386,11 +394,11 @@
         t: document.getElementById('fTitle').value.trim(),
         d: document.getElementById('fDesc').value.trim(),
         pu: document.getElementById('fProductUrl').value.trim(),
-        wn: document.getElementById('fPhone').value.replace(/\D/g, ''),
+        wn: normalizePhone(document.getElementById('fPhone').value),
         wm: document.getElementById('fMessage').value.trim(),
         bt: document.getElementById('fButtons').value
       };
-      var recipientPhone = document.getElementById('fRecipientPhone').value.replace(/\D/g, '');
+      var recipientPhone = normalizePhone(document.getElementById('fRecipientPhone').value);
 
       if (!config.n || !config.t || !config.d || !config.pu || !config.wn || !config.wm || !recipientPhone) {
         showError('Preencha todos os campos antes de gerar o link.');
@@ -401,11 +409,11 @@
         return;
       }
       if (!isValidPhone(config.wn)) {
-        showError('"Seu WhatsApp" inválido — comece com 55 (Brasil) + DDD + número. Ex: 5511999999999');
+        showError('"Seu WhatsApp" inválido — digite DDD + número. Ex: 11999999999');
         return;
       }
       if (!isValidPhone(recipientPhone)) {
-        showError('"WhatsApp de quem recebe o link" inválido — comece com 55 (Brasil) + DDD + número. Ex: 5511988888888');
+        showError('"WhatsApp de quem recebe o link" inválido — digite DDD + número. Ex: 11988888888');
         return;
       }
 

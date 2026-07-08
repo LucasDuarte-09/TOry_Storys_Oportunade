@@ -9,6 +9,14 @@ function randomId() {
   return id;
 }
 
+function normalizePhone(value) {
+  let digits = String(value || '').replace(/\D/g, '');
+  if (digits.length === 10 || digits.length === 11) {
+    digits = '55' + digits;
+  }
+  return digits;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'method not allowed' });
@@ -22,7 +30,7 @@ module.exports = async function handler(req, res) {
     t: String(body.t || '').slice(0, 120).trim(),
     d: String(body.d || '').slice(0, 300).trim(),
     pu: String(body.pu || '').slice(0, 600).trim(),
-    wn: String(body.wn || '').replace(/\D/g, '').slice(0, 13),
+    wn: normalizePhone(body.wn).slice(0, 13),
     wm: String(body.wm || '').slice(0, 300).trim(),
     bt: ['both', 'gift', 'auth'].includes(body.bt) ? body.bt : 'both'
   };
