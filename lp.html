@@ -300,6 +300,106 @@
     min-height: 14px;
   }
 
+  .demo-section {
+    max-width: 400px;
+    margin: 0 auto 56px;
+    padding: 0 24px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .demo-section h2 {
+    font-size: 19px;
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+  }
+  .demo-phone {
+    position: relative;
+    height: 220px;
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .demo-scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    padding: 20px;
+  }
+  .demo-scene.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .demo-scene .demo-icon {
+    font-size: 40px;
+    line-height: 1;
+  }
+  .demo-scene .demo-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f1efe8;
+  }
+  .demo-scene .demo-sub {
+    font-size: 12.5px;
+    color: #9c9a92;
+  }
+  .demo-nao {
+    position: absolute;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffb3b3;
+    background: rgba(255,60,60,0.15);
+    border: 1px solid rgba(255,90,90,0.4);
+    border-radius: 6px;
+    padding: 4px 10px;
+    animation: demoDodge 1.8s ease-in-out infinite;
+  }
+  @keyframes demoDodge {
+    0%   { top: 14%; left: 18%; }
+    25%  { top: 60%; left: 62%; }
+    50%  { top: 20%; left: 58%; }
+    75%  { top: 65%; left: 15%; }
+    100% { top: 14%; left: 18%; }
+  }
+  .demo-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .demo-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transition: background 0.3s ease;
+  }
+  .demo-dots span.active {
+    background: #3CFF3C;
+  }
+  .manual-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #9c9a92;
+    text-decoration: none;
+    margin-top: 8px;
+  }
+  .manual-link:hover {
+    color: #f1efe8;
+  }
+
   .credit {
     text-align: center;
     padding: 0 24px 28px;
@@ -331,6 +431,45 @@
     <p class="lead">Crie, em menos de 2 minutos, uma página só sua com um joguinho: a pessoa tenta clicar em "Não" e ele foge da tela, até restar só o "Sim". Depois é só mandar o link pelo WhatsApp.</p>
     <a class="cta-primary" href="criar.html">Criar meu apelo →</a>
     <a class="cta-secondary" href="index.html?n=Apelo+do+Jo%C3%A3o&t=Posso+comprar+aquele+t%C3%AAnis+novo%3F&d=Prometo+que+vou+usar+s%C3%B3+pra+correr+e+nunca+mais+comprar+outro+esse+ano.&pu=https%3A%2F%2Fwww.mercadolivre.com.br%2F&wn=5500000000000&wm=Isso+%C3%A9+s%C3%B3+um+exemplo+de+mensagem%21+%F0%9F%98%84" target="_blank" rel="noopener">Ver um exemplo funcionando ↗</a>
+    <a class="manual-link" href="manual.html">📖 Ver manual completo</a>
+  </div>
+
+  <div class="demo-section">
+    <h2>Veja como funciona 🎬</h2>
+    <div class="demo-phone glass">
+      <div class="demo-scene active" data-scene="1">
+        <div class="demo-icon">📝</div>
+        <div class="demo-title">Preencha o formulário</div>
+        <div class="demo-sub">Produto, textos e WhatsApp</div>
+      </div>
+      <div class="demo-scene" data-scene="2">
+        <div class="demo-icon">🔗</div>
+        <div class="demo-title">Link pronto!</div>
+        <div class="demo-sub">apelo.../l/Ab12xy</div>
+      </div>
+      <div class="demo-scene" data-scene="3">
+        <div class="demo-icon">📲</div>
+        <div class="demo-title">Manda no WhatsApp</div>
+        <div class="demo-sub">Card chamativo aparece</div>
+      </div>
+      <div class="demo-scene" data-scene="4">
+        <span class="demo-nao">Não</span>
+        <div class="demo-icon">😅</div>
+        <div class="demo-title">"Não" foge da tela</div>
+        <div class="demo-sub">Só sobra o "Sim"</div>
+      </div>
+      <div class="demo-scene" data-scene="5">
+        <div class="demo-icon">❤️</div>
+        <div class="demo-title">Coração cresce</div>
+        <div class="demo-sub">Tela toda, emoção máxima</div>
+      </div>
+      <div class="demo-scene" data-scene="6">
+        <div class="demo-icon">✅</div>
+        <div class="demo-title">Autorizado!</div>
+        <div class="demo-sub">Mensagem chega no seu WhatsApp</div>
+      </div>
+    </div>
+    <div class="demo-dots" id="demoDots"></div>
   </div>
 
   <div class="steps">
@@ -388,6 +527,24 @@
   <p class="credit">Criado por Lucas Pessoa Duarte.</p>
 
   <script>
+    (function () {
+      var scenes = document.querySelectorAll('.demo-scene');
+      var dotsContainer = document.getElementById('demoDots');
+      scenes.forEach(function (_, i) {
+        var dot = document.createElement('span');
+        if (i === 0) dot.className = 'active';
+        dotsContainer.appendChild(dot);
+      });
+      var current = 0;
+      setInterval(function () {
+        scenes[current].classList.remove('active');
+        dotsContainer.children[current].classList.remove('active');
+        current = (current + 1) % scenes.length;
+        scenes[current].classList.add('active');
+        dotsContainer.children[current].classList.add('active');
+      }, 2200);
+    })();
+
     fetch('/api/count')
       .then(function (r) { return r.json(); })
       .then(function (data) {

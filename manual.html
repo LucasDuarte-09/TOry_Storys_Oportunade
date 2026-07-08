@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual completo - Apelo Generator</title>
+<meta name="description" content="Guia passo a passo de como criar, configurar e enviar seu apelo.">
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    background: #0a0b09;
+  }
+  body {
+    margin: 0;
+    background: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #f1efe8;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(560px circle at 12% 8%, rgba(60,255,60,0.16), transparent 60%),
+      radial-gradient(520px circle at 88% 24%, rgba(60,220,255,0.10), transparent 60%),
+      #0a0b09;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 26px 24px 70px;
+    position: relative;
+    z-index: 1;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #9c9a92;
+    text-decoration: none;
+    margin-bottom: 22px;
+  }
+  .back-link:hover {
+    color: #f1efe8;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+  }
+  .lead {
+    font-size: 15px;
+    color: #c9c7bd;
+    line-height: 1.6;
+    margin: 0 0 32px;
+  }
+  .toc {
+    background: rgba(38, 40, 36, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(60,255,60,0.16);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 36px;
+  }
+  .toc div {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #7fdc7f;
+    margin-bottom: 10px;
+  }
+  .toc a {
+    display: block;
+    font-size: 14px;
+    color: #d8d6cd;
+    text-decoration: none;
+    padding: 5px 0;
+  }
+  .toc a:hover {
+    color: #3CFF3C;
+  }
+  section {
+    margin-bottom: 40px;
+  }
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    scroll-margin-top: 20px;
+  }
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(60,255,60,0.14);
+    border: 1px solid rgba(60,255,60,0.3);
+    font-size: 13px;
+    font-weight: 800;
+    color: #3CFF3C;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  p, li {
+    font-size: 14.5px;
+    color: #c9c7bd;
+    line-height: 1.65;
+  }
+  .field-card {
+    background: rgba(38, 40, 36, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .field-card .name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f1efe8;
+    margin-bottom: 4px;
+  }
+  .field-card .desc {
+    font-size: 13.5px;
+    color: #aeaca3;
+    line-height: 1.5;
+    margin: 0;
+  }
+  ol, ul {
+    padding-left: 20px;
+    margin: 0 0 14px;
+  }
+  li {
+    margin-bottom: 8px;
+  }
+  .tip {
+    background: rgba(60,255,60,0.08);
+    border: 1px solid rgba(60,255,60,0.25);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    color: #d8ffd8;
+    margin: 14px 0;
+  }
+  .faq-item {
+    margin-bottom: 18px;
+  }
+  .faq-item .q {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #f1efe8;
+    margin-bottom: 4px;
+  }
+  .cta-primary {
+    display: inline-block;
+    background: #3CFF3C;
+    color: #0a2b00;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 15px;
+    padding: 14px 24px;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px rgba(60,255,60,0.4), 0 8px 24px rgba(60,255,60,0.25);
+  }
+</style>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <a href="lp.html" class="back-link">← Voltar</a>
+    <h1>Manual completo 📖</h1>
+    <p class="lead">Tudo o que você precisa saber pra criar, configurar e enviar seu apelo do jeito certo.</p>
+
+    <div class="toc">
+      <div>Neste manual</div>
+      <a href="#o-que-e">1. O que é o Apelo Generator</a>
+      <a href="#criar">2. Como criar seu apelo</a>
+      <a href="#campos">3. O que preencher em cada campo</a>
+      <a href="#depois">4. Depois de gerar o link</a>
+      <a href="#experiencia">5. O que a pessoa vai ver</a>
+      <a href="#dicas">6. Dicas pra um apelo mais convincente</a>
+      <a href="#faq">7. Perguntas frequentes</a>
+    </div>
+
+    <section id="o-que-e">
+      <h2><span class="num">1</span>O que é o Apelo Generator</h2>
+      <p>É uma ferramenta que gera uma página divertida e interativa pra você pedir um presente ou uma autorização de compra pra alguém especial — namorado(a), esposo(a), pais, etc. A página tem um joguinho: a pessoa tenta clicar em "Não" e o botão foge da tela, até restar só o "Sim". Depois de clicar em "Sim", aparece um coração que cresce e, no final, um botão de "Autorizar" que manda uma mensagem direto pro seu WhatsApp confirmando.</p>
+    </section>
+
+    <section id="criar">
+      <h2><span class="num">2</span>Como criar seu apelo</h2>
+      <ol>
+        <li>Na página inicial, clique em <strong>"Criar meu apelo"</strong>.</li>
+        <li>Preencha os campos do formulário (veja o detalhe de cada um na seção 3).</li>
+        <li>Clique em <strong>"Gerar link ✨"</strong>.</li>
+        <li>Em poucos segundos, um link curto é criado e aparece na tela, pronto pra copiar ou enviar direto pelo WhatsApp.</li>
+      </ol>
+      <div class="tip">💡 Se algum campo obrigatório estiver vazio ou em formato errado, um aviso aparece explicando o que corrigir — o link só é gerado quando tudo estiver certo.</div>
+    </section>
+
+    <section id="campos">
+      <h2><span class="num">3</span>O que preencher em cada campo</h2>
+
+      <div class="field-card">
+        <div class="name">Nome do apelo</div>
+        <p class="desc">Aparece como o título pequeno no topo da página, tipo "Apelo do João" ou "Apelo da Maria". Use seu próprio nome ou apelido.</p>
+      </div>
+
+      <div class="field-card">
+        <div class="name">Pergunta / título</div>
+        <p class="desc">A pergunta principal, em destaque na página. Ex: "Posso comprar aquele tênis novo?"</p>
+      </div>
+
+      <div class="field-card">
+        <div class="name">Texto de apoio</div>
+        <p class="desc">Um texto menor logo abaixo da pergunta, geralmente uma justificativa engraçada ou carinhosa.</p>
+      </div>
+
+      <div class="field-card">
+        <div class="name">Link do produto (loja)</div>
+        <p class="desc">O link da loja (Mercado Livre, Amazon, etc.) do produto que você quer. É pra onde o botão "Dar de presente" leva quando clicado.</p>
+      </div>
+
+      <div class="field-card">
+        <div class="name">Seu WhatsApp</div>
+        <p class="desc">O seu número — é pra ele que chega a mensagem de confirmação quando a pessoa clicar em "Autorizar". Digite só o DDD + número (o código do Brasil, 55, é adicionado automaticamente). Ex: 11999999999.</p>
+      </div>
+
+      <div class="field-card">
+        <div class="name">Mensagem enviada ao autorizar</div>
+        <p class="desc">O texto que chega no SEU WhatsApp assim que a pessoa clica em "Autorizar" — geralmente algo como "Compra autorizada! 😍❤️".</p>
+      </div>
+
+      <div class="field-card">
+        <div class="name">Botões que aparecem no final</div>
+        <p class="desc">Escolha se, depois do coração crescer, aparecem os dois botões ("Dar de presente" e "Autorizar") ou só um deles.</p>
+      </div>
+
+      <div class="field-card">
+        <div class="name">WhatsApp de quem recebe o link</div>
+        <p class="desc">O número de quem vai receber o convite (a pessoa que você quer convencer). Com esse campo preenchido, aparece um botão pra você mandar o link direto por aqui, sem precisar copiar e colar.</p>
+      </div>
+    </section>
+
+    <section id="depois">
+      <h2><span class="num">4</span>Depois de gerar o link</h2>
+      <p>Você tem duas formas de enviar:</p>
+      <ul>
+        <li><strong>Copiar o link</strong> e colar manualmente em qualquer conversa do WhatsApp (ou outro app).</li>
+        <li><strong>Clicar em "Enviar no WhatsApp 📲"</strong> — abre o WhatsApp direto na conversa da pessoa, com uma mensagem já pronta no estilo de uma oferta chamativa.</li>
+      </ul>
+      <p>Quando o link é compartilhado, o WhatsApp mostra automaticamente um card de pré-visualização chamativo ("🎉 Olha que promoção muito legal!"), pra despertar curiosidade antes mesmo de clicar.</p>
+    </section>
+
+    <section id="experiencia">
+      <h2><span class="num">5</span>O que a pessoa vai ver</h2>
+      <ol>
+        <li>Ela abre o link e vê a pergunta que você escreveu, com dois botões: "Sim" (brilhando, chamativo) e "Não" (vermelho).</li>
+        <li>Se tentar clicar em "Não", o botão foge pra outro lugar da tela — impossível de clicar de propósito.</li>
+        <li>Ao clicar em "Sim", um coração nasce pequeno e cresce até tomar a tela toda.</li>
+        <li>Depois aparecem os botões finais: "Dar de presente" (abre a loja) e/ou "Autorizar" (envia a confirmação pro seu WhatsApp).</li>
+      </ol>
+    </section>
+
+    <section id="dicas">
+      <h2><span class="num">6</span>Dicas pra um apelo mais convincente</h2>
+      <ul>
+        <li>Seja específico no "texto de apoio" — uma justificativa engraçada funciona melhor que um pedido genérico.</li>
+        <li>Use um produto real e um link de loja de verdade, pra não parecer suspeito quando a pessoa clicar em "Dar de presente".</li>
+        <li>Prefira enviar pelo botão "Enviar no WhatsApp" em vez de copiar e colar — a mensagem já vem formatada de um jeito mais chamativo.</li>
+        <li>Teste o link você mesmo antes de mandar, clicando em "Abrir prévia", pra ver exatamente o que a pessoa vai ver.</li>
+      </ul>
+    </section>
+
+    <section id="faq">
+      <h2><span class="num">7</span>Perguntas frequentes</h2>
+
+      <div class="faq-item">
+        <div class="q">Preciso programar ou pagar algo?</div>
+        <p>Não. É só preencher o formulário e gerar o link — tudo pronto, sem custo.</p>
+      </div>
+
+      <div class="faq-item">
+        <div class="q">O link expira?</div>
+        <p>Não, o link fica ativo indefinidamente.</p>
+      </div>
+
+      <div class="faq-item">
+        <div class="q">Posso usar qualquer número de WhatsApp?</div>
+        <p>Os números precisam ser brasileiros (o sistema já adiciona o código 55 automaticamente) — é só digitar DDD + número.</p>
+      </div>
+
+      <div class="faq-item">
+        <div class="q">A pessoa consegue ver meus dados (WhatsApp, etc.)?</div>
+        <p>Não. O número do WhatsApp fica só na configuração salva pra funcionar o botão de "Autorizar" — não aparece em nenhum lugar visível da página.</p>
+      </div>
+
+      <div class="faq-item">
+        <div class="q">Meu depoimento na landing page fica público?</div>
+        <p>Sim — nome e texto enviados no formulário de depoimentos ficam visíveis pra qualquer visitante da página. Não inclua dados sensíveis.</p>
+      </div>
+    </section>
+
+    <div style="text-align:center; margin-top: 40px;">
+      <a class="cta-primary" href="criar.html">Criar meu apelo →</a>
+    </div>
+  </div>
+</body>
+</html>
